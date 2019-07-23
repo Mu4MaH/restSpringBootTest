@@ -9,3 +9,32 @@
 5) CashoffPayRequestController дёргает рест Кэшофф с реквизитами для\ платежа
 6) провайдер услуги подтверждает платёж кодом, код надо отослать в рест Кэшоф
 7) Получение статуса платежа. Какая-то муть в api доке, надо уточнить. 
+
+```
+Пример запроса: 
+{
+    "request": {
+        "auth-form": {
+            "@save-password": "false",
+            "field": [
+                {
+                    "@id": "login",
+                    "@value": "test1"
+                },
+                {
+                    "@id": "password",
+                    "@value": "test1"
+                }
+            ]
+        },
+        "session": {
+            "@id": "id1",
+            "@create": "true",
+            "@institution": "tcs"
+        },
+        "@method": "PARSING_DATA",
+        "@service": "infinitum2",
+        "@rid": "aaaa-bbbb-cccc-eeee-ffff"
+    }
+}
+```
