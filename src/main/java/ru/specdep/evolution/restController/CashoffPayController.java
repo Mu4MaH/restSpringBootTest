@@ -1,16 +1,13 @@
 package ru.specdep.evolution.restController;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.specdep.evolution.entity.Authorization.AuthorizationRequest;
-import ru.specdep.evolution.entity.pay.CashoffPayRequest;
-import ru.specdep.evolution.entity.pay.CashoffPayResponse;
 import ru.specdep.evolution.service.CashoffPayService;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
 @RequestMapping(path = "/cashoff")
@@ -18,7 +15,7 @@ public class CashoffPayController {
 
     private CashoffPayService cashoffPayService;
 
-    @PostMapping(path = "pay", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path = "pay", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public AuthorizationRequest response(@RequestBody AuthorizationRequest payRequest) {
         return payRequest;
         //return cashoffPayService.makeThePayment(payRequest);
