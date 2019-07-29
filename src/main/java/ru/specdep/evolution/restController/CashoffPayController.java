@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.specdep.evolution.entity.Authorization.AuthorizationRequest;
+import ru.specdep.evolution.entity.Pay.Credentials;
+import ru.specdep.evolution.entity.Pay.PaymentCredentials;
+import ru.specdep.evolution.entity.Pay.PaymentInitializer;
 import ru.specdep.evolution.service.CashoffPayService;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -20,5 +23,11 @@ public class CashoffPayController {
         return payRequest;
         //return cashoffPayService.makeThePayment(payRequest);
 
+    }
+
+    @PostMapping(path = "initializepay", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public PaymentCredentials payInitlrz (@RequestBody PaymentInitializer paymentInitializer) {
+        CashoffPayService cashoffPayService = new CashoffPayService();
+        return cashoffPayService.paymentInitlzrService(paymentInitializer);
     }
 }
