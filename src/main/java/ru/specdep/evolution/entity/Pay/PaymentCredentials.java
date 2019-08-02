@@ -9,6 +9,9 @@ package ru.specdep.evolution.entity.Pay;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+import java.util.Map;
+
 public class PaymentCredentials {
     @JsonProperty
     private String bik; //БИК банка
@@ -34,10 +37,13 @@ public class PaymentCredentials {
     @JsonProperty
     private String dest; // Назначение платежа
 
+    @JsonProperty
+    private Map<String, String> banks; //список банков
+
     public PaymentCredentials() {
     }
 
-    public PaymentCredentials(String bik, String checkingAcc, String sum, String reciever, String inn, String kpp, String corrAcc, String dest) {
+    public PaymentCredentials(String bik, String checkingAcc, String sum, String reciever, String inn, String kpp, String corrAcc, String dest, Map<String,String> banks) {
         this.bik = bik;
         this.checkingAcc = checkingAcc;
         this.sum = sum;
@@ -46,6 +52,7 @@ public class PaymentCredentials {
         this.kpp = kpp;
         this.corrAcc = corrAcc;
         this.dest = dest;
+        this.banks = banks;
     }
 
     public String getBik() {
@@ -110,5 +117,13 @@ public class PaymentCredentials {
 
     public void setDest(String dest) {
         this.dest = dest;
+    }
+
+    public Map<String, String> getBanks() {
+        return banks;
+    }
+
+    public void setBanks(Map<String, String> banks) {
+        this.banks = banks;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import ru.specdep.evolution.entity.Authorization.AuthorizationRequest;
 import ru.specdep.evolution.entity.Pay.CashoffPayRequest;
 import ru.specdep.evolution.entity.Pay.CashoffPayResponse;
@@ -17,11 +18,15 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.codec.binary.Hex;
 import ru.specdep.evolution.entity.Pay.PaymentCredentials;
 import ru.specdep.evolution.entity.Pay.PaymentInitializer;
 
-
+@Component
 public class CashoffPayService {
 
     String getHmacSHA1(String key, String data) {
@@ -60,7 +65,12 @@ public class CashoffPayService {
         pc.setInn("7840303927");
         pc.setKpp("783501001");
         pc.setReciever("ПАО \"УК \"Арсагера\"");
+        pc.setBanks(new HashMap<>());
         return pc;
+    }
+
+    public Map<String,String> accounts(String userId) {
+        return new HashMap<>();
     }
 
 

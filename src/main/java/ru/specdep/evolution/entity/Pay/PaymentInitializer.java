@@ -8,14 +8,18 @@ public class PaymentInitializer {
     private String pay;
 
     @JsonProperty
-    private String userId;
+    private String sum;
+
+    @JsonProperty(value = "UK_id")
+    private String ukId;
 
     public PaymentInitializer() {
     }
 
-    public PaymentInitializer(String pay, String userId) {
+    public PaymentInitializer(String pay, String sum, String ukId) {
         this.pay = pay;
-        this.userId = userId;
+        this.sum = sum;
+        this.ukId = ukId;
     }
 
     public String getPay() {
@@ -26,11 +30,19 @@ public class PaymentInitializer {
         this.pay = pay;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUkId() {
+        return ukId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUkId(String ukId) {
+        this.ukId = ukId;
+    }
+
+    public String getSum() {
+        return sum;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
     }
 }
