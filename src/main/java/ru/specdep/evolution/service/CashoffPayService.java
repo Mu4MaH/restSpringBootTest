@@ -9,7 +9,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import ru.specdep.evolution.entity.Authorization.AuthorizationForm;
 import ru.specdep.evolution.entity.Authorization.AuthorizationRequest;
+import ru.specdep.evolution.entity.Authorization.ReqBody;
 import ru.specdep.evolution.entity.Pay.CashoffPayRequest;
 import ru.specdep.evolution.entity.Pay.CashoffPayResponse;
 
@@ -25,11 +28,11 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Hex;
 import ru.specdep.evolution.entity.Pay.PaymentCredentials;
 import ru.specdep.evolution.entity.Pay.PaymentInitializer;
+import ru.specdep.evolution.entity.Session.Session;
 
-@Component
 public class CashoffPayService {
 
-    String getHmacSHA1(String key, String data) {
+    private String getHmacSHA1(String key, String data) {
         try {
             final String algorithm = "HmacSHA1";
             Mac hasher = Mac.getInstance(algorithm);
@@ -40,7 +43,7 @@ public class CashoffPayService {
             return null;
         }
     }
-    private String coAuth(String path, String request) {
+    public String coAuth(String path, String request) {
         if (request.isEmpty()&&path.isEmpty()) return null;
         final String SERVICEID = "infinitum";
         String timestamp = String.valueOf(System.currentTimeMillis()/1000L);
@@ -50,14 +53,30 @@ public class CashoffPayService {
     }
 
     public CashoffPayResponse makeThePayment(CashoffPayRequest request) {
+        CashoffPayRequest payRequest = new CashoffPayRequest();
+        ReqBody reqBody = new ReqBody();
+        AuthorizationForm authForm = new AuthorizationForm();
+        Session session = new Session();
+        session.setCreate("true");
+        session.setId("");
+        session.setInstitution("stub");
+        reqBody.setSession(session);
+        authForm.setField(null);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        httpHeaders.add("coAuth", coAuth("path", request.toString()));
         HttpEntity<AuthorizationRequest> httpEntity = new HttpEntity<>(httpHeaders);
+        RestTemplate template = new RestTemplate();
         return null;
     }
 
-    public PaymentCredentials paymentInitlzrService (PaymentInitializer paymentInitializer) {
+    public PaymentCredentials paymentInitlzrService(PaymentInitializer paymentInitializer) {
+        //надо получить и отдать данные по айдишнику УК из переданного аргумента, пока статика для теста
+        //список банков надло получить от кэшоф
         PaymentCredentials pc = new PaymentCredentials();
+        final Map<String, String> banks = new HashMap<>();
+        banks.put("Сбербанк", "sber");
+        banks.put("Тинёк", "tcs");
         pc.setBik("044030704");
         pc.setCheckingAcc("40701810537000000131");
         pc.setCorrAcc("30101810200000000704");
@@ -65,7 +84,7 @@ public class CashoffPayService {
         pc.setInn("7840303927");
         pc.setKpp("783501001");
         pc.setReciever("ПАО \"УК \"Арсагера\"");
-        pc.setBanks(new HashMap<>());
+        pc.setBanks(banks);
         return pc;
     }
 

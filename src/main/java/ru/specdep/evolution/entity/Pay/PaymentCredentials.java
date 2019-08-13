@@ -7,11 +7,13 @@
 
 package ru.specdep.evolution.entity.Pay;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Map;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentCredentials {
     @JsonProperty
     private String bik; //БИК банка

@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.specdep.evolution.Enumerated.StatusHTTP;
+import ru.specdep.evolution.enumerated.StatusHTTP;
 import ru.specdep.evolution.entity.Authorization.AuthorizationRequest;
 import ru.specdep.evolution.entity.Pay.*;
 import ru.specdep.evolution.service.CashoffPayService;
@@ -24,7 +24,7 @@ public class CashoffPayController {
     }
 
     @PostMapping(path = "initializepay", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public PaymentCredentials payInitlrz (@RequestBody PaymentInitializer paymentInitializer) {
+    public PaymentCredentials payInitlrz(@RequestBody PaymentInitializer paymentInitializer) {
         CashoffPayService cashoffPayService = new CashoffPayService();
         return cashoffPayService.paymentInitlzrService(paymentInitializer);
     }
@@ -41,6 +41,13 @@ public class CashoffPayController {
         authStatus.setAccounts(new HashMap<String, String>());
         authStatus.setStatus("granted");
         return authStatus;
+    }
+
+    @PostMapping(path = "account", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public PaymentOperation paymentOperation(@RequestBody PaymentOperation operation) {
+        PaymentOperation output = new PaymentOperation();
+        output.setStatus("success");
+        return output;
     }
 
 }

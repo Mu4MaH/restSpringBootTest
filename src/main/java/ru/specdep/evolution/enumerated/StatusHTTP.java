@@ -1,4 +1,4 @@
-package ru.specdep.evolution.Enumerated;
+package ru.specdep.evolution.enumerated;
 
 public enum StatusHTTP {
     STATUS_OK ("200");

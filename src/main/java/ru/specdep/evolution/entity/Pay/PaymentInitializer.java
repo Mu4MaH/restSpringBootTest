@@ -1,7 +1,9 @@
 package ru.specdep.evolution.entity.Pay;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentInitializer {
 
     @JsonProperty
@@ -13,13 +15,25 @@ public class PaymentInitializer {
     @JsonProperty(value = "UK_id")
     private String ukId;
 
+    @JsonProperty(value ="user_id")
+    private String userId;
+
     public PaymentInitializer() {
     }
 
-    public PaymentInitializer(String pay, String sum, String ukId) {
+    public PaymentInitializer(String pay, String sum, String ukId, String userId) {
         this.pay = pay;
         this.sum = sum;
         this.ukId = ukId;
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getPay() {
