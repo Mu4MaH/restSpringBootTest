@@ -4,11 +4,11 @@ package ru.specdep.evolution.service;
     Сервис дёргает рест платежа у кэшофа, инициализируя платёж
  */
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.specdep.evolution.entity.Authorization.AuthorizationForm;
 import ru.specdep.evolution.entity.Authorization.AuthorizationRequest;
@@ -22,7 +22,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.binary.Hex;
@@ -30,7 +29,13 @@ import ru.specdep.evolution.entity.Pay.PaymentCredentials;
 import ru.specdep.evolution.entity.Pay.PaymentInitializer;
 import ru.specdep.evolution.entity.Session.Session;
 
+@Service
 public class CashoffPayService {
+
+    @Autowired
+    ReqBody reqBody;
+
+    private final String URL = "url=https://developer.cashoff.ru/api/json/";
 
     private String getHmacSHA1(String key, String data) {
         try {
@@ -54,7 +59,6 @@ public class CashoffPayService {
 
     public CashoffPayResponse makeThePayment(CashoffPayRequest request) {
         CashoffPayRequest payRequest = new CashoffPayRequest();
-        ReqBody reqBody = new ReqBody();
         AuthorizationForm authForm = new AuthorizationForm();
         Session session = new Session();
         session.setCreate("true");
@@ -62,17 +66,15 @@ public class CashoffPayService {
         session.setInstitution("stub");
         reqBody.setSession(session);
         authForm.setField(null);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        httpHeaders.add("coAuth", coAuth("path", request.toString()));
-        HttpEntity<AuthorizationRequest> httpEntity = new HttpEntity<>(httpHeaders);
-        RestTemplate template = new RestTemplate();
+
+
         return null;
     }
 
     public PaymentCredentials paymentInitlzrService(PaymentInitializer paymentInitializer) {
         //надо получить и отдать данные по айдишнику УК из переданного аргумента, пока статика для теста
         //список банков надло получить от кэшоф
+        System.out.println(paymentInitializer.toString()); // покаж что получил!ммммммммммммммммм
         PaymentCredentials pc = new PaymentCredentials();
         final Map<String, String> banks = new HashMap<>();
         banks.put("Сбербанк", "sber");
@@ -90,6 +92,17 @@ public class CashoffPayService {
 
     public Map<String,String> accounts(String userId) {
         return new HashMap<>();
+    }
+
+    public Session initCashoffSession (Session session) {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        httpHeaders.add("coAuth", coAuth("path", session.toString()));
+        HttpEntity<AuthorizationRequest> httpEntity = new HttpEntity<>(httpHeaders);
+        RestTemplate restTemplate = new RestTemplate();
+        Session output = restTemplate.postForObject(URL, httpEntity, Session.class);
+        return output;
     }
 
 

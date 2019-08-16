@@ -1,7 +1,9 @@
 package ru.specdep.evolution.entity.Session;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Session {
 
     @JsonProperty("@id")
@@ -11,7 +13,7 @@ public class Session {
     private String create;
 
     @JsonProperty("@institution")
-    String institution;
+    private String institution;
 
     public Session(String id, String create, String institution) {
         this.id = id;

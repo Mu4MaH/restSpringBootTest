@@ -3,6 +3,7 @@ package ru.specdep.evolution;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.specdep.evolution.entity.Pay.Bank;
 import ru.specdep.evolution.entity.Pay.Credentials;
 import ru.specdep.evolution.entity.Pay.PaymentInitializer;
@@ -15,7 +16,9 @@ import java.util.List;
 
 public class CashoffPayServiceTest {
 
-    CashoffPayService cashoffPayService = new CashoffPayService();
+    @Autowired
+    CashoffPayService cashoffPayService;
+
     ObjectMapper objectMapper = new ObjectMapper();
     List<Credentials> credentials = new ArrayList<Credentials>();
 

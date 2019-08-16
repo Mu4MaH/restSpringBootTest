@@ -1,7 +1,9 @@
 package ru.specdep.evolution.entity.Authorization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuthorizationForm {
 
     @JsonProperty("@save-password")

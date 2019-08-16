@@ -21,7 +21,7 @@ public class SessionInitlzr {
         String session = "";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        httpHeaders.add("coAuth", cashoffPayService.coAuth("path", request.toString()));
+        httpHeaders.add("coAuth", cashoffPayService.coAuth("path", reqBody.toString()));
         HttpEntity<AuthorizationRequest> httpEntity = new HttpEntity<>(httpHeaders);
         RestTemplate template = new RestTemplate();
         return session;

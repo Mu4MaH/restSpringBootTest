@@ -1,8 +1,10 @@
 package ru.specdep.evolution.entity.Authorization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.stereotype.Component;
 import ru.specdep.evolution.entity.Session.Session;
 
+@Component
 public class ReqBody {
 
     @JsonProperty("session")
@@ -21,6 +23,14 @@ public class ReqBody {
     private String rid;
 
     public ReqBody() {
+    }
+
+    public ReqBody(Session session, AuthorizationForm authForm, String method, String service, String rid) {
+        this.session = session;
+        this.authForm = authForm;
+        this.method = method;
+        this.service = service;
+        this.rid = rid;
     }
 
     public AuthorizationForm getAuthForm() {

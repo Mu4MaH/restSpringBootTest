@@ -1,5 +1,6 @@
 package ru.specdep.evolution.restController;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RequestMapping(path = "/cashoff")
 public class CashoffPayController {
 
+    @Autowired
+    CashoffPayService cashoffPayService;
+
     @PostMapping(path = "pay", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public AuthorizationRequest response(@RequestBody AuthorizationRequest payRequest) {
         return payRequest;
@@ -25,7 +29,6 @@ public class CashoffPayController {
 
     @PostMapping(path = "initializepay", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public PaymentCredentials payInitlrz(@RequestBody PaymentInitializer paymentInitializer) {
-        CashoffPayService cashoffPayService = new CashoffPayService();
         return cashoffPayService.paymentInitlzrService(paymentInitializer);
     }
 
@@ -46,7 +49,9 @@ public class CashoffPayController {
     @PostMapping(path = "account", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public PaymentOperation paymentOperation(@RequestBody PaymentOperation operation) {
         PaymentOperation output = new PaymentOperation();
-        output.setStatus("success");
+        //тут бизнес-логика в сервисе, сейчас - заглушка
+        if ("12345".equals(operation.getConfirm())) { output.setStatus("success"); }
+        else { output.setConfirm("failed");  }
         return output;
     }
 
